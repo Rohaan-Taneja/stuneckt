@@ -1,173 +1,200 @@
 import React, { useEffect, useState } from "react";
+import EditUserProfileModal from "./EditUserProfileModal";
+import GetFollowersBtn from "./GetFollowersBtn";
+import GetFollowingBtn from "./GetFollowingBtn";
+import { useSelector } from "react-redux";
+import { useParams } from 'react-router-dom';
+import DiplayUserAllPosts from "./DiplayUserAllPosts";
 
-const Userprofiledata = (props) => {
-  const [userdata, setuserdata] = useState({
+// This will show the ID of the logged-in user 
+const Userprofiledata = () => {
+
+  // This is the ID of the person of whom i want to see the profile
+  const { someone_Uid } = useParams();
+
+  const [FollowStatus, setFollowStatus] = useState(false)
+
+  // whose details is to be shown 
+  var userid = someone_Uid ;
+
+  // Getting the loggedin user from the Redux store
+  const loggedInUser = useSelector(state => state.userid);
+  // console.log("This is the logged-in user ID from Redux:", loggedInUser);
+
+  // useEffect variable to store user profile data 
+  const [userdata, setUserdata] = useState({
     username: "",
     followers: "",
     following: "",
   });
 
-  const [UpdatedUsername, setUpdatedUsername] = useState(null);
 
-  const userid = props.uid;
 
-  //   function to update the changes happening in username modal input field
-  const handleInputChange = (e) => {
-    setUpdatedUsername(e.target.value);
-  };
+  // function to update the follow status / follow or unfollow user 
+  const update_followStatus = async()=>{
 
-//   function to update the username in backend 
-  const Save_Updated_Changes = async () => {
-
-    const content ={
-        u_name : UpdatedUsername,
-        u_id : userid
-    }
-    try {
-      const response = await fetch(
-        `http://localhost:8000/api/user/Update_userdetails`,
-        {
-          method: "post",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body : JSON.stringify(content)
-        }
-      );
-
-      const data = await response.json();
-
-      if(data.message === "user with this name alredy exist"){
-        setUpdatedUsername("")
-        alert("user with this alredy exist , please select some other name")
-      }
-      else{
-        setuserdata({
-          ...userdata,
-          username: UpdatedUsername,
   
-        });
-        alert("username updated")
+    var what_To_Do = null;
+    // this means loggedin user was folliwng this profile user , but on press of bttn , he wants to unfollow 
+    if(FollowStatus){
 
+      what_To_Do = "unfollow_this_user"
+
+    }
+    
+    // loggedin user want to follow this profile user 
+    else{
+
+      what_To_Do = "follow_this_user"
+    }
+
+    
+
+    try {
+
+      const Follow_UNfollow_User = {
+        P_user : userid,
+        L_user : loggedInUser
       }
 
-      console.log(data);
+      async function Follow_Unfollow_User(){
 
-      
-
-      // if any error occured
-    } catch (error) {
-      console.error("login failed!", error);
-      alert(
-        "an error is coming up in logging you in  , please try to login again"
-      );
-    }
-  };
-
-  useEffect(() => {
-    // function to get username , followers , following
-    async function fetchuserdata() {
-      try {
         const response = await fetch(
-          `http://localhost:8000/api/user/getuserdetails/${userid}`,
+          `http://localhost:8000/api/user/${what_To_Do}`,
           {
-            method: "GET",
+            method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
+            body: JSON.stringify(Follow_UNfollow_User),
           }
         );
 
         const data = await response.json();
 
-        console.log(data);
+        console.log("i am clicked" );
+        console.log(data);   
+        setFollowStatus(!FollowStatus)     
 
-        setuserdata({
-          username: data.username,
-          followers: data.followers,
-          following: data.following,
-        });
+      } 
+      Follow_Unfollow_User()
+      
+    } catch (error) {
 
-        // if any error occured
-      } catch (error) {
-        console.error("login failed!", error);
-        alert(
-          "an error is coming up in logging you in  , please try to login again"
-        );
-      }
+      console.log("an error occured in " ,what_To_Do ,"=>" , error  );
+      
     }
 
-    fetchuserdata();
-  }, []);
+  }
+
+  
+
+  useEffect(() => {
+
+    if (userid) {
+      // Function to get username, followers, and following
+      async function fetchUserdata() {
+        try {
+          const response = await fetch(
+            `http://localhost:8000/api/user/getuserdetails/${userid}`,
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
+
+          const data = await response.json();
+
+          setUserdata({
+            username: data.username,
+            followers: data.followers,
+            following: data.following,
+          });
+        } catch (error) {
+          console.error("Fetching user data failed!", error);
+          // alert("An error occurred while fetching user data. Please try again." , error);
+        }
+      }
+
+      fetchUserdata();
+    }
+
+    // this is to get if loggedin user following the person whose id details is been displayed 
+    try {
+
+      // puser = user , whose id detail is been displayed here 
+      const UsersData ={
+        P_user : userid,
+        logedin_User : loggedInUser
+      }
+
+      async function isLoggedInUser_FollwingThisUser(){
+
+        const response = await fetch(
+          `http://localhost:8000/api/user/followStatus`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(UsersData),
+          }
+        );
+
+        const data = await response.json();
+
+        console.log("following status" , data);
+
+        if(data.followstatus === "not Following"){
+          setFollowStatus(false)
+        }
+        else{
+          setFollowStatus(true)
+        }
+
+      }
+
+      isLoggedInUser_FollwingThisUser()
+      
+
+
+      
+    } catch (error) {
+
+      console.log("an error occured in gtting follow status=>  " , error )
+      
+    }
+
+  }, [userid , FollowStatus ]);
+
+  // Render loading state if userid is null
+  if (!userid) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div>
-      <div class="profile-container">
-        {/* user details  */}
+      <div className="profile-container">
+        {/* User details */}
         <div className="username">{userdata.username}</div>
-        <span className="followers">{userdata.followers} Followers</span> •{" "}
-        <span className="following">{userdata.following} Following</span>
 
-        {/* modal /button to edit user username  */}
-        {/* <!-- Button trigger modal --> */}
-        <button
-          type="button"
-          class="btn btn-primary font-weight-bold"
-          data-bs-toggle="modal"
-          data-bs-target="#exampleModal"
-        >
-          <h2> Edit Profile</h2>
-        </button>
-        {/* <!-- Modal --> */}
-        <div
-          class="modal fade"
-          id="exampleModal"
-          tabindex="-1"
-          aria-labelledby="exampleModalLabel"
-          aria-hidden="true"
-        >
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h1 id="exampleModalLabel">Edit Profile</h1>
-                <button
-                  type="button"
-                  class="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div class="modal-body">
-                <label
-                  htmlFor="inputIndex"
-                  className="updated_username_modal_field"
-                >
-                  Username
-                </label>
-                {/* Input field */}
-                <input
-                  type="text"
-                  className="updated_username_modal_field"
-                  id="inputIndex"
-                  name="inputIndex"
-                  value={UpdatedUsername}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div class="modal-footer">
-                <button
-                  type="button"
-                  class="btn btn-primary"
-                  data-bs-dismiss="modal"
-                  onClick={Save_Updated_Changes}
-                >
-                  <h2>Save</h2>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+        <GetFollowersBtn userfollowers={userdata.followers} uid={userid} />
+        <GetFollowingBtn userfollowings={userdata.following} uid={userid} />
+
+        {/* if person viewing the this profile/page is same as the loggedin user ,  */}
+        {/* then he will see edit profile else if someone else is seeing then he will see follow bttn  */}
+        {userid === loggedInUser ? (
+          <EditUserProfileModal U_data={userdata} setU_data={setUserdata} uid={userid} />
+        ) : (
+
+          // if loggedin user following this user , then following will display else vise versa 
+          <button onClick={update_followStatus} ><h1>{FollowStatus ? "Following" : "Follow"}</h1></button>
+        )}
       </div>
+
+      <DiplayUserAllPosts uid={userid} />
     </div>
   );
 };

@@ -12,10 +12,15 @@ const CreatePost = async (req, res)=>{
 
     const {uid , title , content } = req.body
 
+    const userrr = await User.findById(uid)
+
+    console.log(userrr.Username);
+
     const newPost = await Post.create({
         PostCreator : uid , 
         title : title,
-        PostContent : content
+        PostContent : content,
+        PostCreator_Name : userrr.Username
 
     })
 
@@ -34,7 +39,7 @@ const CreatePost = async (req, res)=>{
     res.status(200).json({
         message : "done ",
         userpost : newPost,
-        usernewpost : u_user
+        // usernewpost : u_user
     })
 
 
@@ -46,9 +51,9 @@ const GetUserAllsPosts = async(req,res)=>{
     // 1)got user of the user , we will get arrayof post creted by the user first
     // 2)then retrieve the data of those post from post model and send it
 
-    const userid = req.body.uid
+    const userid = req.body.userid
 
-    console.log("userid = " , userid , req.body );
+    console.log("userid = " , userid);
 
     // getting user 
     const userr = await User.findById(userid)
@@ -76,12 +81,12 @@ const GetUserAllsPosts = async(req,res)=>{
 // thsi function will get all the post created till date 
 const AllExistingPost = async (req, res)=>{
     
-    // here we getting all the posts 
+    // here we are getting all the posts 
 
     const AllPosts = await Post.find()
 
     res.status(200).json({
-        message :"allthe posts" , 
+        message :"all the posts" , 
         allposts : AllPosts
     })
 

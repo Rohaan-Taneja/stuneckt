@@ -4,6 +4,7 @@ import Registeration from './Components/Registeration';
 import Home from './Components/Home';
 import Login from './Components/Login';
 import UserAccount from './Components/UserAccount';
+import Userprofiledata from './Components/Userprofiledata';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <Route path='/user/register' element={<Registeration />} />
       <Route path='/user/login' element={<Login />} />
       <Route path='/user/UserAccount/:user' element={<UserAccount/>} />
+      <Route path='/user/UserProfile/:someone_Uid' element={<Userprofiledata/>} />
 
 
     </Routes>

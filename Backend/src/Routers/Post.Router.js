@@ -6,7 +6,7 @@ const PostRouter = router();
 
 PostRouter.route("/createPost").post(CreatePost)
 
-PostRouter.route("/getAllUserPost").post(GetUserAllsPosts)
+PostRouter.route("/getUserAllPost").post(GetUserAllsPosts)
 
 PostRouter.route("/getAllPosts").get(AllExistingPost)
 

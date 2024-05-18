@@ -17,6 +17,11 @@ const PostSchema = new mongoose.Schema({
         type :String,
         require :true,
         trim : true
+    },
+    PostCreator_Name:{
+        type:String,
+        require :true,
+        trim:true
     }
 } , {timestamps :true})
 
