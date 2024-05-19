@@ -18,7 +18,7 @@ const CreatePost = (props) => {
       content: content,
     };
 
-    const response = await fetch(`http://localhost:8000/api/post/createPost`, {
+    const response = await fetch(`/api/post/createPost`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

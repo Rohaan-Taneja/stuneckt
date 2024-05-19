@@ -21,7 +21,7 @@ const DisplayAllPost = () => {
     try {
       const GetAllPost = async () => {
         const response = await fetch(
-          `http://localhost:8000/api/post/getAllPosts`,
+          `/api/post/getAllPosts`,
           {
             method: "GET",
             headers: {

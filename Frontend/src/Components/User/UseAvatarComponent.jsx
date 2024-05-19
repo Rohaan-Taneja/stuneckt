@@ -26,7 +26,7 @@ const UseAvatarComponent = (props) => {
       try {
         // fetching data of the logged in user
         const response = await fetch(
-          `http://localhost:8000/api/user/getuserdetails/${userid}`,
+          `/api/user/getuserdetails/${userid}`,
           {
             method: "GET",
             headers: {

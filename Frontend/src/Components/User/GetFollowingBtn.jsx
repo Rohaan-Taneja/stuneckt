@@ -24,7 +24,7 @@ const GetFollowingBtn = (props) => {
       const userid = { userid: props.uid };
 
       const response = await fetch(
-        "http://localhost:8000/api/user/getAllMyFollowings",
+       "/api/user/getAllMyFollowings",
         {
           method: "POST",
           headers: {

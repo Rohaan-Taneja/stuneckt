@@ -19,7 +19,7 @@ const EditUserProfileModal = (props) => {
 
     try {
       const response = await fetch(
-        `http://localhost:8000/api/user/Update_userdetails`,
+        `/api/user/Update_userdetails`,
         {
           method: "post",
           headers: {

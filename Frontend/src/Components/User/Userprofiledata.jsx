@@ -48,7 +48,7 @@ const Userprofiledata = () => {
 
       async function Follow_Unfollow_User() {
         const response = await fetch(
-          `http://localhost:8000/api/user/${what_To_Do}`,
+          `/api/user/${what_To_Do}`,
           {
             method: "POST",
             headers: {
@@ -76,7 +76,7 @@ const Userprofiledata = () => {
       async function fetchUserdata() {
         try {
           const response = await fetch(
-            `http://localhost:8000/api/user/getuserdetails/${userid}`,
+            `/api/user/getuserdetails/${userid}`,
             {
               method: "GET",
               headers: {
@@ -111,7 +111,7 @@ const Userprofiledata = () => {
 
       async function isLoggedInUser_FollwingThisUser() {
         const response = await fetch(
-          `http://localhost:8000/api/user/followStatus`,
+          `/api/user/followStatus`,
           {
             method: "POST",
             headers: {
