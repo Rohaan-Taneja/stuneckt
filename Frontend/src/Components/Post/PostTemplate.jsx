@@ -16,7 +16,6 @@ const PostTemplate = (props) => {
   }
   return (
     <div className="post-container" onClick={gotoPostCreator_ProfilePage}>
-    <div className="post-header">{props.PostCreator_name}</div>
     <div className="post-title">{props.post_title}</div>
     <div className="post-content">{props.posts_content}</div>
   </div>
