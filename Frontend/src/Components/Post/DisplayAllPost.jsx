@@ -21,7 +21,7 @@ const DisplayAllPost = () => {
     try {
       const GetAllPost = async () => {
         const response = await fetch(
-          `/api/post/getAllPosts`,
+          `https://stuneckt-k58i.onrender.com/api/post/getAllPosts`,
           {
             method: "GET",
             headers: {

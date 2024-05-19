@@ -18,7 +18,7 @@ const CreatePost = (props) => {
       content: content,
     };
 
-    const response = await fetch(`/api/post/createPost`, {
+    const response = await fetch(`https://stuneckt-k58i.onrender.com/api/post/createPost`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

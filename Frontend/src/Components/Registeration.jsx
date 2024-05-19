@@ -37,7 +37,7 @@ function Registeration() {
     e.preventDefault();
 
     try {
-      const response = await fetch('/api/user/register', {
+      const response = await fetch('https://stuneckt-k58i.onrender.com/api/user/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

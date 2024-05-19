@@ -19,7 +19,7 @@ const EditUserProfileModal = (props) => {
 
     try {
       const response = await fetch(
-        `/api/user/Update_userdetails`,
+        `https://stuneckt-k58i.onrender.com/api/user/Update_userdetails`,
         {
           method: "post",
           headers: {

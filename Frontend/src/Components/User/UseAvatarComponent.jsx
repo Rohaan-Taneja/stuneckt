@@ -26,7 +26,7 @@ const UseAvatarComponent = (props) => {
       try {
         // fetching data of the logged in user
         const response = await fetch(
-          `/api/user/getuserdetails/${userid}`,
+          `https://stuneckt-k58i.onrender.com/api/user/getuserdetails/${userid}`,
           {
             method: "GET",
             headers: {

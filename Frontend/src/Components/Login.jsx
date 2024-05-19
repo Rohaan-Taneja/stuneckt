@@ -35,7 +35,7 @@ function Login() {
 
     // sending login request to backend
     try {
-      const response = await fetch("/api/user/login", {
+      const response = await fetch("https://stuneckt-k58i.onrender.com/api/user/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

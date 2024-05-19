@@ -31,7 +31,7 @@ const DisplayUserAllPosts = (props) => {
         };
 
         const response = await fetch(
-          `/api/post/getUserAllPost`,
+          `https://stuneckt-k58i.onrender.com/api/post/getUserAllPost`,
           {
             method: "POST",
             headers: {

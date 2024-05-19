@@ -20,7 +20,7 @@ const GetFollowersBtn = (props) => {
       const userid = { userid: props.uid };
 
       const response = await fetch(
-        "/api/user/getAllMyFollowers",
+        "https://stuneckt-k58i.onrender.com/api/user/getAllMyFollowers",
         {
           method: "POST",
           headers: {

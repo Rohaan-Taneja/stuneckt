@@ -48,7 +48,7 @@ const Userprofiledata = () => {
 
       async function Follow_Unfollow_User() {
         const response = await fetch(
-          `/api/user/${what_To_Do}`,
+          `https://stuneckt-k58i.onrender.com/api/user/${what_To_Do}`,
           {
             method: "POST",
             headers: {
@@ -76,7 +76,7 @@ const Userprofiledata = () => {
       async function fetchUserdata() {
         try {
           const response = await fetch(
-            `/api/user/getuserdetails/${userid}`,
+            `https://stuneckt-k58i.onrender.com/api/user/getuserdetails/${userid}`,
             {
               method: "GET",
               headers: {
@@ -111,7 +111,7 @@ const Userprofiledata = () => {
 
       async function isLoggedInUser_FollwingThisUser() {
         const response = await fetch(
-          `/api/user/followStatus`,
+          `https://stuneckt-k58i.onrender.com/api/user/followStatus`,
           {
             method: "POST",
             headers: {
