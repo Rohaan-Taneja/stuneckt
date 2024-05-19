@@ -2,16 +2,15 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const UseAvatarComponent = (props) => {
-
-    // this sill store loggedin user username 
+  // this sill store loggedin user username
   const [username, setusername] = useState(null);
 
   const navigate = useNavigate();
 
-//   userid of the logedin user 
+  //   userid of the logedin user
   const userid = props.uid;
 
-//   this  is the id of the user of which i want to ssee the profile , here iit is logedin user only 
+  //   this  is the id of the user of which i want to ssee the profile , here iit is logedin user only
   const someone_Uid = userid;
 
   // this will load the userid page of the loggedin user and send the id of the user of which i want to see the profile
@@ -20,8 +19,7 @@ const UseAvatarComponent = (props) => {
     navigate(`/user/UserProfile/${someone_Uid}`);
   };
 
-
-//   this will feetch the the data form the backend of the loged in userr 
+  //   this will feetch the the data form the backend of the loged in userr
   useEffect(() => {
     // function to get username
     async function fetchuserdata() {
@@ -55,11 +53,14 @@ const UseAvatarComponent = (props) => {
   }, [userid]);
 
   return (
-    <div class="container">
-      <button class="round-button" onClick={openUserProfile}>
-        <img className="avatar_img" src="/Images/avatar_Image.png" />
-      </button>
-      <h1>{username}</h1>
+    <div className="avatar_container">
+      <div className="app_name">Social's</div>
+      <div className="btn_and_username_div">
+        <button className="avatar_round-button" onClick={openUserProfile}>
+          <img className="avatar_img" src="/Images/avatar_Image.png" />
+        </button>
+        <h1>{username}</h1>
+      </div>
     </div>
   );
 };

@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import PostTemplate from "./PostTemplate";
+import CreatePost from "./CreatePost";
+import { useSelector } from "react-redux";
 
 const DisplayUserAllPosts = (props) => {
+
   const [Posts, setPosts] = useState([]);
 
   const getPostTemplate = (p) => {
@@ -16,6 +19,9 @@ const DisplayUserAllPosts = (props) => {
       />
     );
   };
+
+  // Getting the loggedin user from the Redux store
+  const loggedInUser = useSelector((state) => state.userid);
 
   useEffect(() => {
     const GetUserAllPost = async () => {
@@ -45,12 +51,25 @@ const DisplayUserAllPosts = (props) => {
     };
 
     GetUserAllPost();
+  }, [props.uid ]);
+  console.log("this is the post array ", Posts);
+  return (
+    <div className="p_outer_div">
+      {loggedInUser === props.uid && (
+        <div className="create-post-container">
+          <CreatePost uid={props.uid} />
+        </div>
+      )}
 
-  }, [props.uid]);
-console.log("this is the post array ",  Posts)
-  return <div>
-    {Posts.map(getPostTemplate)}
-    </div>;
+      <div className="posts-container">
+        {Posts.length > 0 ? (
+          Posts.map(getPostTemplate)
+        ) : (
+          <h2>No posts available</h2>
+        )}
+      </div>
+    </div>
+  );
 };
 
 export default DisplayUserAllPosts;

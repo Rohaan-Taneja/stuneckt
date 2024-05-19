@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {useDispatch} from 'react-redux';
-import { currentLoggedInUser } from "../features/User/UserSlice";
+import { currentLoggedInUser } from "../../features/User/UserSlice";
 import UseAvatarComponent from "./UseAvatarComponent";
-import DisplayAllPost from "./DisplayAllPost";
+import DisplayAllPost from "../Post/DisplayAllPost";
 
 const UserAccount = () => {
 

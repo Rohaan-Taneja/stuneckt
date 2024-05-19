@@ -3,8 +3,8 @@ import {Routes, Route } from "react-router-dom";
 import Registeration from './Components/Registeration';
 import Home from './Components/Home';
 import Login from './Components/Login';
-import UserAccount from './Components/UserAccount';
-import Userprofiledata from './Components/Userprofiledata';
+import UserAccount from './Components/User/UserAccount';
+import Userprofiledata from './Components/User/Userprofiledata';
 
 function App() {
   return (

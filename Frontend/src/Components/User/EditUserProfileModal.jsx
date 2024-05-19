@@ -1,27 +1,22 @@
 import React, { useState } from "react";
 
-
-// component to update the userprofilee data 
+// component to update the userprofilee data
 const EditUserProfileModal = (props) => {
-
-    // useeffec to store the updated user useername 
+  // useeffec to store the updated user useername
   const [UpdatedUsername, setUpdatedUsername] = useState(null);
-  
 
-    //   function to update the changes happening in username modal input field
-    const handleInputChange = (e) => {
-        setUpdatedUsername(e.target.value);
-      };
+  //   function to update the changes happening in username modal input field
+  const handleInputChange = (e) => {
+    setUpdatedUsername(e.target.value);
+  };
 
-    
-    //   function to update the username in backend 
+  //   function to update the username in backend
   const Save_Updated_Changes = async () => {
+    const content = {
+      u_name: UpdatedUsername,
+      u_id: props.uid,
+    };
 
-    const content ={
-        u_name : UpdatedUsername,
-        u_id : props.uid
-    }
-    
     try {
       const response = await fetch(
         `http://localhost:8000/api/user/Update_userdetails`,
@@ -30,29 +25,24 @@ const EditUserProfileModal = (props) => {
           headers: {
             "Content-Type": "application/json",
           },
-          body : JSON.stringify(content)
+          body: JSON.stringify(content),
         }
       );
 
       const data = await response.json();
 
-      if(data.message === "user with this name alredy exist"){
-        setUpdatedUsername("")
-        alert("user with this alredy exist , please select some other name")
-      }
-      else{
+      if (data.message === "user with this name alredy exist") {
+        setUpdatedUsername("");
+        alert("user with this alredy exist , please select some other name");
+      } else {
         props.setU_data({
-          ... props.U_data,
+          ...props.U_data,
           username: UpdatedUsername,
-  
         });
-        alert("username updated")
-
+        alert("username updated");
       }
 
       console.log(data);
-
-      
 
       // if any error occured
     } catch (error) {
@@ -69,12 +59,13 @@ const EditUserProfileModal = (props) => {
       {/* <!-- Button trigger modal --> */}
       <button
         type="button"
-        class="btn btn-primary font-weight-bold"
+        className="btn edit-profile-btn"
         data-bs-toggle="modal"
         data-bs-target="#exampleModal"
       >
-        <h2> Edit Profile</h2>
+        <h2> 	&#9998; Edit Profile</h2>
       </button>
+
       {/* <!-- Modal --> */}
       <div
         class="modal fade"

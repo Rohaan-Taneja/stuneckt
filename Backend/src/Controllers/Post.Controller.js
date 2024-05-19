@@ -4,46 +4,47 @@ import User from "../Models/User.Model.js"
 
 
 // function to cretae a new post 
-const CreatePost = async (req, res)=>{
+const CreatePost = async (req, res) => {
+    try {
 
-    // what will we do ?
-    // 1) create post using data 
-    // 2) store the post id in the user schema for reference (userPost's)
+        const { uid, title, content } = req.body;
 
-    const {uid , title , content } = req.body
+        // Find user
+        const userrr = await User.findById(uid);
 
-    const userrr = await User.findById(uid)
-
-    console.log(userrr.Username);
-
-    const newPost = await Post.create({
-        PostCreator : uid , 
-        title : title,
-        PostContent : content,
-        PostCreator_Name : userrr.Username
-
-    })
-
-    const updated_user =  await User.updateOne(
-        { _id: uid },
-        {
-          $push: {
-            UsersPost: newPost._id,
-          },
-          $currentDate: { lastUpdated: true },
+        if (!userrr) {
+            return res.status(404).json({ message: "User not found" });
         }
-    )
 
-    const u_user = await User.findById(uid)
+        // Create post in the name of the user
+        const newPost = await Post.create({
+            PostCreator: uid,
+            title: title,
+            PostContent: content,
+            PostCreator_Name: userrr.Username
+        });
 
-    res.status(200).json({
-        message : "done ",
-        userpost : newPost,
-        // usernewpost : u_user
-    })
+        // Add new post to the array of user's posts
+        const updatedUser = await User.updateOne(
+            { _id: uid },
+            {
+                $push: { UsersPost: newPost._id },
+                $currentDate: { lastUpdated: true }
+            }
+        );
 
+        const u_user = await User.findById(uid);
 
-}
+        res.status(200).json({
+            message: "Post created successfully",
+            newpost : newPost
+        });
+    } catch (error) {
+        console.error("Error creating post:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};
+
 
 // function to get all the psot creted by user 
 const GetUserAllsPosts = async(req,res)=>{

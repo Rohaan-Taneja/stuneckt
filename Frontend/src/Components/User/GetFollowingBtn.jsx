@@ -3,13 +3,11 @@ import { useState } from "react";
 import Template from "./Template";
 
 const GetFollowingBtn = (props) => {
-
   // this is the map callback function , this will return individual following list item/user
   const userfollowingsData = (user) => {
-
     // console.log("thisis the user" , user);
-    if(!user){
-      return null
+    if (!user) {
+      return null;
     }
 
     // console.log("this is the userr", user);
@@ -19,7 +17,6 @@ const GetFollowingBtn = (props) => {
 
   // usestate arrray to store the list of following users
   const [FollowingList, setFollowingList] = useState([]);
-
 
   // fuction to fetch the following list from backend
   const GetMyFollowingList = async () => {
@@ -38,37 +35,40 @@ const GetFollowingBtn = (props) => {
       );
 
       const data = await response.json();
+      console.log("following list =" ,data.allusers);
 
       // console.log("this is the folowing data " , data);
 
-      if (data.message === "0 followings"  || data.status === 404 || data.status === 500) {
-        setFollowingList([])
-        
+      if (
+        data.message === "0 followings" ||
+        data.status === 404 ||
+        data.status === 500
+      ) {
+        setFollowingList([]);
+      } else {
+        setFollowingList(data.allusers);
       }
-      else{
-        setFollowingList([data.allusers[0]]);
-
-      }
-      
 
       // console.log("this isthelist of following", data);
     } catch (error) {
       console.log("erros is coming in getting user folowing list", error);
     }
   };
+
   
+
   return (
     <div>
       <div>
         {/* Modal button */}
         <button
           type="button"
-          class="btn btn-primary font-weight-bold"
+          className="btn custom-btn"
           data-bs-toggle="modal"
-          data-bs-target="#exampleModalFollowing" // Unique identifier
+          data-bs-target="#exampleModalFollowing"
           onClick={GetMyFollowingList}
         >
-          <h2>{props.userfollowings} Following</h2>
+              <h2>{props.userfollowings} Following</h2>
         </button>
 
         {/* Modal */}
@@ -89,9 +89,11 @@ const GetFollowingBtn = (props) => {
 
               {/* Modal Body */}
               <div class="modal-body">
-                
-              {FollowingList && FollowingList.length > 0 ? ( FollowingList.map(userfollowingsData )) : ( <h1>No following</h1> )}
-
+                {FollowingList && FollowingList.length > 0 ? (
+                  FollowingList.map(userfollowingsData)
+                ) : (
+                  <h1>No following</h1>
+                )}
               </div>
 
               {/* Modal Footer */}

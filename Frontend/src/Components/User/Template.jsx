@@ -8,8 +8,7 @@ const Template = (props) => {
 
   const user = props.uid;
 
-  const someone_Uid= user;
-
+  const someone_Uid = user;
 
   // this will send the id of the user in the follower/following list and hence that follower/following user profile will open
   const handleClick = (event) => {
@@ -19,10 +18,11 @@ const Template = (props) => {
   };
 
   return (
-    <div>
-      <button onClick={handleClick} className="button">
-        <h1>{props.uname}</h1>
-        <h2>{props.uid}</h2>
+    <div className="follow_user_outerdiv">
+      <button onClick={handleClick} className="follower-button">
+        <div className="follower-info">
+          <div className="f_name">{props.uname}</div>
+        </div>
       </button>
     </div>
   );
